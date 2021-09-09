@@ -1,12 +1,23 @@
-# Save this file as `R/lm_stan.R`
-
-#' Bayesian linear regression with Stan
+#' Fit the zero-one inflated beta model for both the mediator and outcome
+#'
+#' For both the mediator and outcome we use (i) a logistic regression for the
+#' probability of a 0, (ii) a logistic regression for the probability of 1
+#' given non-zero, and (iii) a beta regression with logistic mean-link and
+#' exponential precision link. That is:
+#' \itemize{
+#'   \item The event (M == 0) is modeled with a logistic regression
+#'   \item The event (M == 1) is modeled with a conditiona logistic regression, where
+#'   we work conditional on (M != 0)
+#'   \item Given 0 < M < 1, we have M ~ Beta(mu * phi, (1 - mu) * phi) where
+#'   mu = expit(X * beta_mu) and phi = exp(X * beta_phi)
+#' }
 #'
 #' @export
-#' @param x Numeric vector of input values.
-#' @param y Numberic vector of output values.
+#' @param formula_m Formula for the regression of the mediator on covariates and treatment .
+#' @param formula_y Formula for the regression of the outcome on covariates, treatment, and the mediator
+#' @param df A data.frame containing the covariates, mediator, outcome, and treatment
 #' @param ... Arguments passed to `rstan::sampling` (e.g. iter, chains).
-#' @return An object of class `stanfit` returned by `rstan::sampling`
+#' @return An object of class `stanfit` returned by `rstan::sampling` which contains samples from the fitted ZOIB model.
 #'
 bayes_zoib <- function(formula_m, formula_y, df, ...) {
 

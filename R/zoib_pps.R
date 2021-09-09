@@ -1,6 +1,23 @@
-
-zoib_pps <- function(samples, iterations, data, formula_m, formula_y,
+#' Posterior predictions from ZOIB marginals
+#'
+#' Draws from the posterior predictive distribution of the mediator and outcome
+#'
+#' @param samples Model fit with the bayes_zoib function
+#' @param thin Do we want to sample on all iterations (thin = 1) or half (thin = 2), etc.
+#' @param data The data used to fit the model
+#' @param formula_m Formula used to fit the mediator model
+#' @param formula_y Formula used to fit the outcome model
+#' @param med_name Name of the mediator
+#' @param trt_name Name of the treatment
+#' @param print_interval Number of iterations before printing an update on progress
+#'
+#' @return Samples from the posterior predictive distribution, stored as a data.frame
+#' giving the subject id, iteration, outcome, and mediator.
+zoib_ppc <- function(samples, thin, data, formula_m, formula_y,
                      med_name, trt_name, print_interval = 100) {
+
+  iterations <- floor(seq(from = 1, to = length(as.matrix(samples, pars = "lp__")),
+                    by = thin))
 
   X_m <- model.matrix(formula_m, data)
   N   <- nrow(X_m)

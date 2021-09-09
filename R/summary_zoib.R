@@ -1,3 +1,21 @@
+#' Summarize ZOIB fit
+#'
+#' Makes a data.frame containing estimated coefficients, standard errors, etc
+#' for the regression coefficients of the different GLMs in the ZOIB model.
+#'
+#' The "alpha" model refers to the model for the point mass at 0, the "gamma"
+#' model is the model for the point mass at 1 (given non-zero), and "mu" and
+#' "phi" refer to the models for the continuous part with mean mu and precision
+#' phi.
+#'
+#' @param fit Model fitted with bayes_zoib
+#' @param formula_y Formula used to fit the model for the outcome
+#' @param formula_m Formula used to fit the model for the mediator
+#' @param data The data used to fit the model
+#'
+#' @return A data.frame containing estimated coefficients, standard errors, etc
+#' for the regression coefficients of the different GLMs.
+#' @export
 summary_zoib <- function(fit, formula_y, formula_m, data) {
 
   vnames_y <- paste0(colnames(model.matrix(formula_y, data = data)))

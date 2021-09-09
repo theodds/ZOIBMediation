@@ -1,3 +1,17 @@
+#' Traceplots for ZOIB fit
+#'
+#' Returns a traceplot for the coefficients of a fitted ZOIB model
+#'
+#' @param fit Model fit with bayes_zoib
+#' @param formula Formula used to fit the model (either for the mediator or outcome, depending on the response type)
+#' @param data Data used to fit the model
+#' @param param The model component we want to look at; can be "alpha", "gamma",
+#' "mu", or "phi" where alpha corresponds to the mass at 0, gamma to the mass at
+#'  1, and (mu,phi) to the mean/precision of the beta model.
+#' @param response "mediator" or "outcome"?
+#'
+#' @return A ggplot object showing traceplots.
+#' @export
 traceplot_zoib <- function(fit, formula, data,
                            param = "alpha", response = "mediator") {
 
@@ -34,7 +48,7 @@ traceplot_zoib <- function(fit, formula, data,
   my_plot <- ggplot(sample_df_med_alpha_2,
                     aes(y = Val, x = iteration, color = factor(chain))) +
     geom_line(alpha = .5) +
-    facet_wrap(~Param, nrow = 2, ncol = 5, scale = "free_y") +
+    facet_wrap(~Param, ncol = 5, scale = "free_y") +
     # scale_color_viridis_d() +
     theme_bw() + theme(legend.position = "none") + xlab("Iteration") + ylab("")
 

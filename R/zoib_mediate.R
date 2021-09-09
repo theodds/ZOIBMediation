@@ -1,29 +1,35 @@
 #' Perform causal mediation analysis in the zero-one inflated beta regression
 #' model
 #'
-#' @param X A matrix of measured confounders, and transformations thereof
-#' @param y A vector of outcomes, scaled to lie in [0,1].
-#' @param m A vector of mediators, scaled to lie in [0,1], which will be incorporated linearly in the model
-#' @param A A vector of binary treatment indicators
-#' @param stratify Indicates whether A will be incorporated linearly (homogeneous treatment effect) or stratified on
-#' @num_warmup Number of MCMC iterations to discard to warm up the chain
-#' @num_save Number of MCMC iterations to save per chain
-#' @num_chain Number of chains to run
-#' @return The sum of \code{x} and \code{y}
-#' @examples
-#' add(1, 1)
-#' add(10, 1)
+#' @param zoib_fit Model fit with the bayes_zoib function
+#' @param data Original data used to get zoib_fit
+#' @param formula_m formula for the mediator used in constructing zoib_fit
+#' @param formula_y formula for the outcome used in constructign zoib_fit
+#' @param g_comp_thin Thinning interval used for the g-computation, defauls to 1
+#' @param print_interval How many iterations before printing progress?
+#' @param num_copy Number of pseudo-datasets to use when performing g-computation
+#' @param med_name Name of the mediator in the original data
+#' @param trt_name Name of the treatment in the original data
+#' @param out_name Name of the outcome in the original data
+#'
+#' @return A data.frame containing samples from the posterior of the direct (zeta),
+#' indirect (delta), and total effects (tau) for different values of the treatment,
+#' as well as the expected value of the mediator for the different treatments.
+#'
+#' The output can be fed into zoib_sensitivity and plot_zoib_sensitivity, or
+#' post-processed directly using the data.frame.
 zoib_mediate <- function(zoib_fit,
                          data,
                          formula_m = ~ 1,
                          formula_y = ~ 1,
-                         model_phi = FALSE,
-                         g_comp_iters = NULL,
+                         g_comp_thin = 1,
                          print_interval = 100,
                          num_copy = 2,
                          med_name = "M",
                          trt_name = "A",
                          out_name = "Y") {
+
+
 
   X_m <- model.matrix(formula_m, data)
   X_y <- model.matrix(formula_y, data)
@@ -36,7 +42,7 @@ zoib_mediate <- function(zoib_fit,
   X_y_0 <- model.matrix(formula_y, data_0)
   X_y_1 <- model.matrix(formula_y, data_1)
 
-  if(is.null(g_comp_iters)) g_comp_iters <- 1:4000
+  g_comp_iters <- seq(from = 1, to = length(as.matrix(zoib_fit, pars = "lp__")), by = g_comp_thin)
 
   # samples <- sampling(zoib_model, data = stan_data, pars = c("beta_mediator", "beta_outcome"))
   samples_mat <- as.matrix(zoib_fit, pars = c("beta_mediator","beta_outcome"))|>

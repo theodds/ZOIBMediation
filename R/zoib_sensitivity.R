@@ -1,13 +1,42 @@
+#' Sensitivity analysis for ZOIB mediation model
+#'
+#' Performs the sensitivity analysis outlined by Rene et al. (2021) Causal
+#' Mediation and Sensitivity Analysis for Mixed-Scale Data - see this paper for
+#' additional details. This sensitivity analysis shifts unobserved potential
+#' outcomes Y(a, m) either on the linear or logit scale by a factor lambda *
+#' (M(a) - m), where lambda is an unidentified sensitivity parameter.
+#'
+#' @param data Data used to fit the original model
+#' @param samples Model fit obtained by bayes_zoib
+#' @param formula_m Formula for the mediator when fitting the model
+#' @param formula_y Formula for the outcome when fitting the model
+#' @param g_comp_thin Do we want to sample on all iterations (thin = 1) or half (thin = 2), etc
+#' @param print_interval Number of iterations before printing an update on progress
+#' @param num_copy Number of pseudo-datasets when performing g-computation
+#' @param med_name Name of the mediator
+#' @param trt_name Name of the treatment
+#' @param out_name Name of the outcome
+#' @param rho Correlation in Gaussian copula (only relevant when doing sensitivity on the logit scale)
+#' @param lambda_grid The values of lambda we want to look at
+#' @param logit_scale Whether to operate on the logit scale or not.
+#'
+#' @return Samples of the mediation effects
+#' (delta(0), delta(1), zeta(0), zeta(1), tau) for each value of lambda, stored
+#' as a data.frame with the iteration, id of the simulated dataset, parameter,
+#' and value of lambda given.
+#'
+#' This can be worked with directly for inference, but it is probably more efficient to
+#' visualize the results with plot_zoib_sensitivity.
+#' @export
 zoib_sensitivity <- function(data, samples,
                              formula_m = ~ 1,
                              formula_y = ~ 1,
-                             model_phi = FALSE,
-                             g_comp_iters = NULL,
+                             g_comp_thin = 1,
                              print_interval = 100,
                              num_copy = 2,
-                             med_name = "M",
-                             trt_name = "A",
-                             out_name = "Y",
+                             med_name,
+                             trt_name,
+                             out_name,
                              rho = 1,
                              lambda_grid,
                              logit_scale = TRUE
@@ -15,6 +44,9 @@ zoib_sensitivity <- function(data, samples,
 
   X_m <- model.matrix(formula_m, data)
   N   <- nrow(X_m)
+
+  g_comp_iters <- floor(seq(from = 1, to = length(as.matrix(samples, pars = "lp__")),
+                      by = g_comp_thin))
 
   data_0 <- data; data_0[[trt_name]] <- 0
   data_1 <- data; data_1[[trt_name]] <- 1
