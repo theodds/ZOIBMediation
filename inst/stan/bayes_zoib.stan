@@ -4,7 +4,6 @@ data{
   int<lower=1> np_m; // number of columns for design matrix of mediator
   vector<lower=0, upper=1>[n] y;
   vector<lower=0, upper=1>[n] m;
-  vector[n] A; //treatment variable
   matrix[n, np_y] X_y;
   matrix[n, np_m] X_m;
 }

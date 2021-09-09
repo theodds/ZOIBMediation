@@ -19,7 +19,7 @@ static int current_statement_begin__;
 stan::io::program_reader prog_reader__() {
     stan::io::program_reader reader;
     reader.add_event(0, 0, "start", "model_bayes_zoib");
-    reader.add_event(110, 108, "end", "model_bayes_zoib");
+    reader.add_event(69, 67, "end", "model_bayes_zoib");
     return reader;
 }
 #include <stan_meta_header.hpp>
@@ -31,7 +31,6 @@ private:
         int np_m;
         vector_d y;
         vector_d m;
-        vector_d A;
         matrix_d X_y;
         matrix_d X_m;
 public:
@@ -64,28 +63,28 @@ public:
         (void) DUMMY_VAR__;  // suppress unused var warning
         try {
             // initialize data block variables from context__
-            current_statement_begin__ = 42;
+            current_statement_begin__ = 2;
             context__.validate_dims("data initialization", "n", "int", context__.to_vec());
             n = int(0);
             vals_i__ = context__.vals_i("n");
             pos__ = 0;
             n = vals_i__[pos__++];
             check_greater_or_equal(function__, "n", n, 1);
-            current_statement_begin__ = 43;
+            current_statement_begin__ = 3;
             context__.validate_dims("data initialization", "np_y", "int", context__.to_vec());
             np_y = int(0);
             vals_i__ = context__.vals_i("np_y");
             pos__ = 0;
             np_y = vals_i__[pos__++];
             check_greater_or_equal(function__, "np_y", np_y, 1);
-            current_statement_begin__ = 44;
+            current_statement_begin__ = 4;
             context__.validate_dims("data initialization", "np_m", "int", context__.to_vec());
             np_m = int(0);
             vals_i__ = context__.vals_i("np_m");
             pos__ = 0;
             np_m = vals_i__[pos__++];
             check_greater_or_equal(function__, "np_m", np_m, 1);
-            current_statement_begin__ = 45;
+            current_statement_begin__ = 5;
             validate_non_negative_index("y", "n", n);
             context__.validate_dims("data initialization", "y", "vector_d", context__.to_vec(n));
             y = Eigen::Matrix<double, Eigen::Dynamic, 1>(n);
@@ -97,7 +96,7 @@ public:
             }
             check_greater_or_equal(function__, "y", y, 0);
             check_less_or_equal(function__, "y", y, 1);
-            current_statement_begin__ = 46;
+            current_statement_begin__ = 6;
             validate_non_negative_index("m", "n", n);
             context__.validate_dims("data initialization", "m", "vector_d", context__.to_vec(n));
             m = Eigen::Matrix<double, Eigen::Dynamic, 1>(n);
@@ -109,17 +108,7 @@ public:
             }
             check_greater_or_equal(function__, "m", m, 0);
             check_less_or_equal(function__, "m", m, 1);
-            current_statement_begin__ = 47;
-            validate_non_negative_index("A", "n", n);
-            context__.validate_dims("data initialization", "A", "vector_d", context__.to_vec(n));
-            A = Eigen::Matrix<double, Eigen::Dynamic, 1>(n);
-            vals_r__ = context__.vals_r("A");
-            pos__ = 0;
-            size_t A_j_1_max__ = n;
-            for (size_t j_1__ = 0; j_1__ < A_j_1_max__; ++j_1__) {
-                A(j_1__) = vals_r__[pos__++];
-            }
-            current_statement_begin__ = 48;
+            current_statement_begin__ = 7;
             validate_non_negative_index("X_y", "n", n);
             validate_non_negative_index("X_y", "np_y", np_y);
             context__.validate_dims("data initialization", "X_y", "matrix_d", context__.to_vec(n,np_y));
@@ -133,7 +122,7 @@ public:
                     X_y(j_1__, j_2__) = vals_r__[pos__++];
                 }
             }
-            current_statement_begin__ = 49;
+            current_statement_begin__ = 8;
             validate_non_negative_index("X_m", "n", n);
             validate_non_negative_index("X_m", "np_m", np_m);
             context__.validate_dims("data initialization", "X_m", "matrix_d", context__.to_vec(n,np_m));
@@ -153,11 +142,11 @@ public:
             // validate, set parameter ranges
             num_params_r__ = 0U;
             param_ranges_i__.clear();
-            current_statement_begin__ = 53;
+            current_statement_begin__ = 12;
             validate_non_negative_index("beta_mediator", "np_m", np_m);
             validate_non_negative_index("beta_mediator", "4", 4);
             num_params_r__ += (np_m * 4);
-            current_statement_begin__ = 54;
+            current_statement_begin__ = 13;
             validate_non_negative_index("beta_outcome", "np_y", np_y);
             validate_non_negative_index("beta_outcome", "4", 4);
             num_params_r__ += (np_y * 4);
@@ -178,7 +167,7 @@ public:
         (void) pos__; // dummy call to supress warning
         std::vector<double> vals_r__;
         std::vector<int> vals_i__;
-        current_statement_begin__ = 53;
+        current_statement_begin__ = 12;
         if (!(context__.contains_r("beta_mediator")))
             stan::lang::rethrow_located(std::runtime_error(std::string("Variable beta_mediator missing")), current_statement_begin__, prog_reader__());
         vals_r__ = context__.vals_r("beta_mediator");
@@ -199,7 +188,7 @@ public:
         } catch (const std::exception& e) {
             stan::lang::rethrow_located(std::runtime_error(std::string("Error transforming variable beta_mediator: ") + e.what()), current_statement_begin__, prog_reader__());
         }
-        current_statement_begin__ = 54;
+        current_statement_begin__ = 13;
         if (!(context__.contains_r("beta_outcome")))
             stan::lang::rethrow_located(std::runtime_error(std::string("Variable beta_outcome missing")), current_statement_begin__, prog_reader__());
         vals_r__ = context__.vals_r("beta_outcome");
@@ -245,14 +234,14 @@ public:
         try {
             stan::io::reader<local_scalar_t__> in__(params_r__, params_i__);
             // model parameters
-            current_statement_begin__ = 53;
+            current_statement_begin__ = 12;
             Eigen::Matrix<local_scalar_t__, Eigen::Dynamic, Eigen::Dynamic> beta_mediator;
             (void) beta_mediator;  // dummy to suppress unused var warning
             if (jacobian__)
                 beta_mediator = in__.matrix_constrain(np_m, 4, lp__);
             else
                 beta_mediator = in__.matrix_constrain(np_m, 4);
-            current_statement_begin__ = 54;
+            current_statement_begin__ = 13;
             Eigen::Matrix<local_scalar_t__, Eigen::Dynamic, Eigen::Dynamic> beta_outcome;
             (void) beta_outcome;  // dummy to suppress unused var warning
             if (jacobian__)
@@ -260,39 +249,39 @@ public:
             else
                 beta_outcome = in__.matrix_constrain(np_y, 4);
             // transformed parameters
-            current_statement_begin__ = 58;
+            current_statement_begin__ = 17;
             validate_non_negative_index("eta_y", "n", n);
             validate_non_negative_index("eta_y", "4", 4);
             Eigen::Matrix<local_scalar_t__, Eigen::Dynamic, Eigen::Dynamic> eta_y(n, 4);
             stan::math::initialize(eta_y, DUMMY_VAR__);
             stan::math::fill(eta_y, DUMMY_VAR__);
-            current_statement_begin__ = 59;
+            current_statement_begin__ = 18;
             validate_non_negative_index("eta_m", "n", n);
             validate_non_negative_index("eta_m", "4", 4);
             Eigen::Matrix<local_scalar_t__, Eigen::Dynamic, Eigen::Dynamic> eta_m(n, 4);
             stan::math::initialize(eta_m, DUMMY_VAR__);
             stan::math::fill(eta_m, DUMMY_VAR__);
             // transformed parameters block statements
-            current_statement_begin__ = 61;
+            current_statement_begin__ = 20;
             stan::math::assign(eta_y, multiply(X_y, beta_outcome));
-            current_statement_begin__ = 62;
+            current_statement_begin__ = 21;
             stan::math::assign(eta_m, multiply(X_m, beta_mediator));
-            current_statement_begin__ = 64;
+            current_statement_begin__ = 23;
             stan::model::assign(eta_y, 
                         stan::model::cons_list(stan::model::index_min_max(1, n), stan::model::cons_list(stan::model::index_uni(3), stan::model::nil_index_list())), 
                         stan::model::deep_copy(inv_logit(stan::model::rvalue(eta_y, stan::model::cons_list(stan::model::index_min_max(1, n), stan::model::cons_list(stan::model::index_uni(3), stan::model::nil_index_list())), "eta_y"))), 
                         "assigning variable eta_y");
-            current_statement_begin__ = 65;
+            current_statement_begin__ = 24;
             stan::model::assign(eta_y, 
                         stan::model::cons_list(stan::model::index_min_max(1, n), stan::model::cons_list(stan::model::index_uni(4), stan::model::nil_index_list())), 
                         stan::model::deep_copy(stan::math::exp(stan::model::rvalue(eta_y, stan::model::cons_list(stan::model::index_min_max(1, n), stan::model::cons_list(stan::model::index_uni(4), stan::model::nil_index_list())), "eta_y"))), 
                         "assigning variable eta_y");
-            current_statement_begin__ = 66;
+            current_statement_begin__ = 25;
             stan::model::assign(eta_m, 
                         stan::model::cons_list(stan::model::index_min_max(1, n), stan::model::cons_list(stan::model::index_uni(3), stan::model::nil_index_list())), 
                         stan::model::deep_copy(inv_logit(stan::model::rvalue(eta_m, stan::model::cons_list(stan::model::index_min_max(1, n), stan::model::cons_list(stan::model::index_uni(3), stan::model::nil_index_list())), "eta_m"))), 
                         "assigning variable eta_m");
-            current_statement_begin__ = 67;
+            current_statement_begin__ = 26;
             stan::model::assign(eta_m, 
                         stan::model::cons_list(stan::model::index_min_max(1, n), stan::model::cons_list(stan::model::index_uni(4), stan::model::nil_index_list())), 
                         stan::model::deep_copy(stan::math::exp(stan::model::rvalue(eta_m, stan::model::cons_list(stan::model::index_min_max(1, n), stan::model::cons_list(stan::model::index_uni(4), stan::model::nil_index_list())), "eta_m"))), 
@@ -300,7 +289,7 @@ public:
             // validate transformed parameters
             const char* function__ = "validate transformed params";
             (void) function__;  // dummy to suppress unused var warning
-            current_statement_begin__ = 58;
+            current_statement_begin__ = 17;
             size_t eta_y_j_1_max__ = n;
             size_t eta_y_j_2_max__ = 4;
             for (size_t j_1__ = 0; j_1__ < eta_y_j_1_max__; ++j_1__) {
@@ -312,7 +301,7 @@ public:
                     }
                 }
             }
-            current_statement_begin__ = 59;
+            current_statement_begin__ = 18;
             size_t eta_m_j_1_max__ = n;
             size_t eta_m_j_2_max__ = 4;
             for (size_t j_1__ = 0; j_1__ < eta_m_j_1_max__; ++j_1__) {
@@ -325,41 +314,41 @@ public:
                 }
             }
             // model body
-            current_statement_begin__ = 74;
+            current_statement_begin__ = 33;
             for (int j = 1; j <= 4; ++j) {
-                current_statement_begin__ = 75;
+                current_statement_begin__ = 34;
                 for (int i = 1; i <= np_y; ++i) {
-                    current_statement_begin__ = 76;
+                    current_statement_begin__ = 35;
                     lp_accum__.add(normal_log<propto__>(get_base1(beta_outcome, i, j, "beta_outcome", 1), 0.0, 10.0));
                 }
-                current_statement_begin__ = 78;
+                current_statement_begin__ = 37;
                 for (int i = 1; i <= np_m; ++i) {
-                    current_statement_begin__ = 79;
+                    current_statement_begin__ = 38;
                     lp_accum__.add(normal_log<propto__>(get_base1(beta_mediator, i, j, "beta_mediator", 1), 0.0, 10.0));
                 }
             }
-            current_statement_begin__ = 84;
+            current_statement_begin__ = 43;
             for (int i = 1; i <= n; ++i) {
-                current_statement_begin__ = 85;
+                current_statement_begin__ = 44;
                 if (as_bool(logical_eq(get_base1(y, i, "y", 1), 0.0))) {
-                    current_statement_begin__ = 86;
+                    current_statement_begin__ = 45;
                     lp_accum__.add(bernoulli_logit_log(1, get_base1(eta_y, i, 1, "eta_y", 1)));
                 } else if (as_bool(logical_eq(get_base1(y, i, "y", 1), 1))) {
-                    current_statement_begin__ = 88;
+                    current_statement_begin__ = 47;
                     lp_accum__.add((bernoulli_logit_log(1, get_base1(eta_y, i, 2, "eta_y", 1)) + bernoulli_logit_log(0, get_base1(eta_y, i, 1, "eta_y", 1))));
                 } else {
-                    current_statement_begin__ = 90;
+                    current_statement_begin__ = 49;
                     lp_accum__.add(((bernoulli_logit_log(0, get_base1(eta_y, i, 2, "eta_y", 1)) + bernoulli_logit_log(0, get_base1(eta_y, i, 1, "eta_y", 1))) + beta_log(get_base1(y, i, "y", 1), (get_base1(eta_y, i, 3, "eta_y", 1) * get_base1(eta_y, i, 4, "eta_y", 1)), ((1 - get_base1(eta_y, i, 3, "eta_y", 1)) * get_base1(eta_y, i, 4, "eta_y", 1)))));
                 }
-                current_statement_begin__ = 94;
+                current_statement_begin__ = 53;
                 if (as_bool(logical_eq(get_base1(m, i, "m", 1), 0.0))) {
-                    current_statement_begin__ = 95;
+                    current_statement_begin__ = 54;
                     lp_accum__.add(bernoulli_logit_log(1, get_base1(eta_m, i, 1, "eta_m", 1)));
                 } else if (as_bool(logical_eq(get_base1(m, i, "m", 1), 1.0))) {
-                    current_statement_begin__ = 98;
+                    current_statement_begin__ = 57;
                     lp_accum__.add((bernoulli_logit_log(1, get_base1(eta_m, i, 2, "eta_m", 1)) + bernoulli_logit_log(0, get_base1(eta_m, i, 1, "eta_m", 1))));
                 } else {
-                    current_statement_begin__ = 101;
+                    current_statement_begin__ = 60;
                     lp_accum__.add(((bernoulli_logit_log(0, get_base1(eta_m, i, 2, "eta_m", 1)) + bernoulli_logit_log(0, get_base1(eta_m, i, 1, "eta_m", 1))) + beta_log(get_base1(m, i, "m", 1), (get_base1(eta_m, i, 3, "eta_m", 1) * get_base1(eta_m, i, 4, "eta_m", 1)), ((1 - get_base1(eta_m, i, 3, "eta_m", 1)) * get_base1(eta_m, i, 4, "eta_m", 1)))));
                 }
             }
@@ -446,39 +435,39 @@ public:
         if (!include_tparams__ && !include_gqs__) return;
         try {
             // declare and define transformed parameters
-            current_statement_begin__ = 58;
+            current_statement_begin__ = 17;
             validate_non_negative_index("eta_y", "n", n);
             validate_non_negative_index("eta_y", "4", 4);
             Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic> eta_y(n, 4);
             stan::math::initialize(eta_y, DUMMY_VAR__);
             stan::math::fill(eta_y, DUMMY_VAR__);
-            current_statement_begin__ = 59;
+            current_statement_begin__ = 18;
             validate_non_negative_index("eta_m", "n", n);
             validate_non_negative_index("eta_m", "4", 4);
             Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic> eta_m(n, 4);
             stan::math::initialize(eta_m, DUMMY_VAR__);
             stan::math::fill(eta_m, DUMMY_VAR__);
             // do transformed parameters statements
-            current_statement_begin__ = 61;
+            current_statement_begin__ = 20;
             stan::math::assign(eta_y, multiply(X_y, beta_outcome));
-            current_statement_begin__ = 62;
+            current_statement_begin__ = 21;
             stan::math::assign(eta_m, multiply(X_m, beta_mediator));
-            current_statement_begin__ = 64;
+            current_statement_begin__ = 23;
             stan::model::assign(eta_y, 
                         stan::model::cons_list(stan::model::index_min_max(1, n), stan::model::cons_list(stan::model::index_uni(3), stan::model::nil_index_list())), 
                         stan::model::deep_copy(inv_logit(stan::model::rvalue(eta_y, stan::model::cons_list(stan::model::index_min_max(1, n), stan::model::cons_list(stan::model::index_uni(3), stan::model::nil_index_list())), "eta_y"))), 
                         "assigning variable eta_y");
-            current_statement_begin__ = 65;
+            current_statement_begin__ = 24;
             stan::model::assign(eta_y, 
                         stan::model::cons_list(stan::model::index_min_max(1, n), stan::model::cons_list(stan::model::index_uni(4), stan::model::nil_index_list())), 
                         stan::model::deep_copy(stan::math::exp(stan::model::rvalue(eta_y, stan::model::cons_list(stan::model::index_min_max(1, n), stan::model::cons_list(stan::model::index_uni(4), stan::model::nil_index_list())), "eta_y"))), 
                         "assigning variable eta_y");
-            current_statement_begin__ = 66;
+            current_statement_begin__ = 25;
             stan::model::assign(eta_m, 
                         stan::model::cons_list(stan::model::index_min_max(1, n), stan::model::cons_list(stan::model::index_uni(3), stan::model::nil_index_list())), 
                         stan::model::deep_copy(inv_logit(stan::model::rvalue(eta_m, stan::model::cons_list(stan::model::index_min_max(1, n), stan::model::cons_list(stan::model::index_uni(3), stan::model::nil_index_list())), "eta_m"))), 
                         "assigning variable eta_m");
-            current_statement_begin__ = 67;
+            current_statement_begin__ = 26;
             stan::model::assign(eta_m, 
                         stan::model::cons_list(stan::model::index_min_max(1, n), stan::model::cons_list(stan::model::index_uni(4), stan::model::nil_index_list())), 
                         stan::model::deep_copy(stan::math::exp(stan::model::rvalue(eta_m, stan::model::cons_list(stan::model::index_min_max(1, n), stan::model::cons_list(stan::model::index_uni(4), stan::model::nil_index_list())), "eta_m"))), 
